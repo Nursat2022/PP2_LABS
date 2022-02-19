@@ -18,24 +18,25 @@ S1 = newstr('Nursat')
 
 class Shape:
     def __init__(self, fig):
-        self.len = fig
-    def area(self):
-        pass
+        self.area = fig
+    def def_area(self):
+        print(0)
 
 class Square(Shape):
-    def __init__(self, x):
+    def __init__(self, x, area):
         self.lenth = x
+        super().__init__(area)
     def area(self):
         print(self.lenth * self.lenth)
 
 class Rectangle(Shape):
-    def __init__(self, name, a, b):
-        super().__init__(name)
+    def __init__(self, area, a, b):
+        super().__init__(area)
         self.a_side = a
         self.b_side = b
     def area2(self):
         print(self.a_side * self.b_side)
-
+    
 
 class Point:
     def __init__(self, x, y):
@@ -50,6 +51,11 @@ class Point:
         res = ((self.x - point2.x)**2 + (self.y - point2.y)**2)**0.5
         print(res)
 
+# p1 = Point(1, 10)
+# p2 = Point(7, 8)
+# p1.show()
+# p1.move(0,0)
+# p1.dist(p2)
 
 class Account:
     def __init__(self, name, soname, balance):
