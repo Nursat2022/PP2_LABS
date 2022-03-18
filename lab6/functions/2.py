@@ -1,0 +1,5 @@
+s = input()
+cnt_low = sum(1 for i in s if i.isupper())
+cnt_up = sum(1 for i in s if i.islower())
+print(f'numer of uppercase letters: {cnt_low}')
+print(f'number of lowercase letters: {cnt_up}')

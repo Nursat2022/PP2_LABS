@@ -1,0 +1,14 @@
+import os
+WORKING_DIR = os.getcwd()
+for item in os.listdir(WORKING_DIR):
+    target_path = os.path.join(WORKING_DIR, item)
+    print(target_path)
+
+
+
+    
+    print(f'Exist: {os.access(target_path, os.F_OK)}')
+    print(f'Readable: {os.access(target_path, os.R_OK)}')
+    print(f'Writable: {os.access(target_path, os.W_OK)}')
+    print(f'Executable: {os.access(target_path, os.X_OK)}')
+
