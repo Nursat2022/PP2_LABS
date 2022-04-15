@@ -1,4 +1,5 @@
 import pygame as pg
+from math import *
 pg.init()
 
 WIDTH, HEIGHT = 800, 600
@@ -78,10 +79,10 @@ def right_t(surf, pos, w, color):
 def rhombus(surf, pos , w, color): 
     x, y = pos[0], pos[1]
 
-    pg.draw.line(screen, color, (x, y), (x + 100, y - 100), w)
-    pg.draw.line(screen, color, (x, y), (x - 100, y - 100), w)
-    pg.draw.line(screen, color, (x, y), (x, y + 100), w)
-    pg.draw.line(screen, color, (x, y), (x, y - 100), w)
+    pg.draw.line(screen, color, (x, y - 80), (x + 100, y), w)
+    pg.draw.line(screen, color, (x + 100, y), (x, y + 80), w)
+    pg.draw.line(screen, color, (x, y + 80), (x - 100, y), w)
+    pg.draw.line(screen, color, (x - 100, y), (x, y - 80), w)
 
 def triangle(screen, posi, d, color): 
     pg.draw.polygon(screen, color,  posi, d)
@@ -135,6 +136,12 @@ while running:
         for k in d.keys():
             if k != 'rhombus':
                 d[k] = False
+    if keys[pg.K_t]:
+        d['triangle'] = True
+        for k in d.keys():
+            if k != 'triangle':
+                d[k] = False
+        
 
     if keys[pg.K_1]:
         color = RED
@@ -177,6 +184,12 @@ while running:
         elif d['rhombus']:
             if event.type == pg.MOUSEBUTTONDOWN:
                 rhombus(screen, pos, w, color)
+
+        elif d['triangle'] == 1:
+            if event.type == pg.MOUSEBUTTONDOWN:
+                cur = pos
+            if event.type == pg.MOUSEBUTTONUP:
+                triangle(screen,[cur, pos,((pos[0] - cur[0])*cos(pi/3) - (pos[1] - cur[1])*sin(pi/3) + cur[0], (pos[0] - cur[0])*sin(pi/3) + (pos[1] - cur[1])*cos(pi/3) + cur[1])], w, color)
 
         elif d['erase']:
             if event.type == pg.MOUSEBUTTONDOWN:
