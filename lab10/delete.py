@@ -10,23 +10,18 @@ conn = psycopg2.connect(
 cursor = conn.cursor()
 
 b = input('by:\n')
+d = input()
 
-if b == 'number':
-    d = input()
-    print(type(d))
-
-    sql = '''
-    delete from phonebook where number = %s;  
-    '''
-    cursor.execute(sql, d)
-
-elif b == 'name':
-    d = input()
+if b == 'name':
     sql = '''
     delete from phonebook where name = %s;
     '''
-    cursor.execute(sql, d)
+elif b == 'number':
+    sql = '''
+    delete from phonebook where number = %s;
+    '''
 
+cursor.execute(sql, [d])
 
 cursor.close()
 conn.commit()

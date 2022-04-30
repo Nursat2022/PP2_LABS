@@ -1,7 +1,37 @@
-import pygame 
+from locale import currency
+import pygame, psycopg2
 import time
 from random import randint
 pygame.init()
+
+highscore = 0
+
+name = input('Enter your name:\n')
+
+conn = psycopg2.connect(
+    host='localhost', 
+    database='pp2demo',
+    user='pp2demo_user',
+    password='123'
+)
+
+cursor = conn.cursor()
+
+sql1 = '''
+    select * from users where user_name = %s;
+'''
+cursor.execute(sql1, [name])
+data = cursor.fetchone()
+
+if data:
+    print(data)
+    highscore = data[len(data)-1]
+else:
+    sql = '''
+        insert into users values(%s, 0, 0, 0);
+    '''
+    cursor.execute(sql, [name])
+    # conn.commit()
 
 WIDTH, HEIGHT = 500, 500
 FPS = 10
@@ -207,6 +237,19 @@ while running:
     S.move()
     F.check_pos()
     F.draw()
+
+    #sql
+    sql2 = '''
+    update users set score = %s, level = %s where user_name = %s
+    '''
+    sql3 = '''
+    update users set highscore = %s where user_name = %s
+    '''
+
+    cursor.execute(sql2, (score, level, name))
+    if score > highscore:
+        highscore = score
+        cursor.execute(sql3, (highscore, name))
     
     level_text = font.render(f'LEVEL {level}', True, (255, 0, 0))
     text = font.render(f'Score: {score}', True, (255, 0, 0))
@@ -214,3 +257,8 @@ while running:
     screen.blit(level_text, (200, 20))
     pygame.display.flip()
 pygame.quit()
+
+cursor.close()
+conn.commit()
+conn.close()
+
